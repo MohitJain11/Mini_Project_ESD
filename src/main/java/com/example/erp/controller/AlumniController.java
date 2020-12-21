@@ -24,7 +24,11 @@ public class AlumniController {
         System.out.println(alumni.getAlumni_password());
 
         AlumniService alumniService = new AlumniService();
-        alumniService.alumniLogin(alumni);
-        return Response.ok().build();
+        int result = alumniService.alumniLogin(alumni);
+        if(result == 1){
+            return Response.ok().build();
+        } else {
+            return Response.noContent().build();
+        }
     }
 }

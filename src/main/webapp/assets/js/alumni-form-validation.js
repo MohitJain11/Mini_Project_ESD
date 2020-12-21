@@ -17,6 +17,10 @@ alumni_login_form.addEventListener('submit', async (e) => {
         });
         let result = await response;
         console.log(result);
+        if(result['status'] === 200){
+            let data = response.json();
+            location.href = "alumnidashboard.html";
+        }
         // window.location.href = "http://localhost:8080/lab5resthibernate_war/alumnidashboard"
     }
     alumni_login_form.classList.add('was-validated');
