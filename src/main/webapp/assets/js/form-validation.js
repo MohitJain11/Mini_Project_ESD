@@ -59,8 +59,7 @@ async function fetch_courses(){
     let response = await fetch("api/courses/get");
     let courses = await response.json(); // read response body and parse as JSON
     console.log(courses);
-    let courses_option = document.getElementById('courses');
-    courses_option.innerHTML = '<option value=""> Choose...</option>';
+     courses_option.innerHTML = '<option value=""> Choose...</option>';
 
     for(let i = 0 ; i<courses.length ; i++){
         courses_option.innerHTML += '<option value="'+courses[i]+'">'+courses[i]+'</option>';

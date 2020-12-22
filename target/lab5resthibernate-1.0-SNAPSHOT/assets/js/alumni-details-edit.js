@@ -23,7 +23,7 @@ student_details_update.addEventListener('submit', async (e) => {
         let result = await response;
         console.log(result);
     }
-    student_form.classList.add('was-validated');
+    student_details_update.classList.add('was-validated');
 });
 
 async function fetch_courses(){
