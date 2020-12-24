@@ -4,7 +4,7 @@ let alumni_details_edit = document.getElementById('edit_details_button');
 let add_education = document.getElementById('add_education');
 let alumni_education_edit = document.getElementById('edit_education_button');
 
-let alumni_organisation_view = document.getElementById('view_organisation_button');
+let add_organisation = document.getElementById('add_organisation');
 let alumni_organisation_edit = document.getElementById('edit_organisation_button');
 
 alumni_details_view.addEventListener('click', async (e) => {
@@ -20,6 +20,11 @@ alumni_details_edit.addEventListener('click', async (e) => {
 add_education.addEventListener('click', async (e)=>{
     console.log("add Education");
     location.href="addneweducation.html"
+})
+
+add_organisation.addEventListener('click', async (e)=>{
+    console.log("add Education");
+    location.href="addneworganisation.html"
 })
 
 alumni_education_edit.addEventListener('click', async (e) => {

@@ -3,6 +3,7 @@ package com.example.erp.dao.impl;
 import com.example.erp.Global;
 import com.example.erp.bean.Alumni;
 import com.example.erp.bean.AlumniEducation;
+import com.example.erp.bean.AlumniOrganisation;
 import com.example.erp.bean.Students;
 import com.example.erp.dao.AlumniDao;
 import com.example.erp.utils.SessionUtil;
@@ -48,6 +49,18 @@ public class AlumniDAOImpl implements AlumniDao {
     }
 
     @Override
+    public void addOrganisation(AlumniOrganisation alumniOrganisation) {
+        try (Session session = SessionUtil.getSession()) {
+            session.beginTransaction();
+            Integer id = (Integer) session.save(alumniOrganisation);
+            System.out.println("Alumin Organisation created with id:" + id);
+            session.getTransaction().commit();
+        } catch (HibernateException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public List<AlumniEducation> getEducationDetails(Integer id) {
         try (Session session = SessionUtil.getSession()) {
             List<AlumniEducation> alumniEducationList;
@@ -56,6 +69,20 @@ public class AlumniDAOImpl implements AlumniDao {
 //            AlumniEducation alumniEducation = (AlumniEducation) query.uniqueResult();
             System.out.println("edu"+ alumniEducationList.get(0).getDegree());
             return alumniEducationList;
+        } catch (Exception e){
+            return null;
+        }
+    }
+
+    @Override
+    public List<AlumniOrganisation> getOrganisationDetails(Integer id) {
+        try (Session session = SessionUtil.getSession()) {
+            List<AlumniOrganisation> alumniOrganisationList;
+            session.beginTransaction();
+            alumniOrganisationList= session.createQuery("from AlumniOrganisation where alumniId= :id").setLong("id", id).list();
+//            AlumniEducation alumniEducation = (AlumniEducation) query.uniqueResult();
+            System.out.println("edu"+ alumniOrganisationList.get(0).getPosition());
+            return alumniOrganisationList;
         } catch (Exception e){
             return null;
         }
@@ -72,6 +99,24 @@ public class AlumniDAOImpl implements AlumniDao {
             AlumniEducation alumniEducation = (AlumniEducation) query.uniqueResult();
             if(alumniEducation.getAlumniEducationId().equals(id)){
                 return alumniEducation;
+            }
+        } catch (Exception e){
+            return null;
+        }
+        return null;
+    }
+
+    @Override
+    public AlumniOrganisation getOrganisationById(Integer id, Integer alumniId) {
+        try (Session session = SessionUtil.getSession()) {
+            session.beginTransaction();
+            /////Checking...
+            Query query = session.createQuery("from AlumniOrganisation where alumniOrganisationId= :id and alumniId=:alumniId");
+            query.setLong("id", id);
+            query.setLong("alumniId", alumniId);
+            AlumniOrganisation alumniOrganisation = (AlumniOrganisation) query.uniqueResult();
+            if(alumniOrganisation.getAlumniOrganisationId().equals(id)){
+                return alumniOrganisation;
             }
         } catch (Exception e){
             return null;
@@ -102,12 +147,48 @@ public class AlumniDAOImpl implements AlumniDao {
     }
 
     @Override
+    public void updateOrganisation(AlumniOrganisation alumniOrganisation) {
+        try (Session session = SessionUtil.getSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("update AlumniOrganisation set joiningDate=:joiningDate, leavingDate=:leavingDate," +
+                    "organisationName=:organisationName, position=: position " +
+                    "where alumniId=:alumniId and alumniOrganisationId=:id");
+            query.setParameter("joiningDate", alumniOrganisation.getJoiningDate());
+            query.setParameter("leavingDate", alumniOrganisation.getLeavingDate());
+            query.setParameter("organisationName", alumniOrganisation.getOrganisationName());
+            query.setParameter("position", alumniOrganisation.getPosition());
+            query.setParameter("alumniId", alumniOrganisation.getAlumniId());
+            query.setParameter("id", alumniOrganisation.getAlumniOrganisationId());
+            int result = query.executeUpdate();
+            session.getTransaction().commit();
+            System.out.println("No of rows updated: "+result);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void deleteEducation(AlumniEducation alumniEducation) {
         try (Session session = SessionUtil.getSession()) {
             session.beginTransaction();
             Query query = session.createQuery("delete from AlumniEducation where alumniEducationId= :id AND alumniId= :alumniId");
             query.setParameter("id", alumniEducation.getAlumniEducationId());
             query.setParameter("alumniId", alumniEducation.getAlumniId());
+            int result = query.executeUpdate();
+            session.getTransaction().commit();
+            System.out.println("No of rows updated: "+result);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteOrganisation(AlumniOrganisation alumniOrganisation) {
+        try (Session session = SessionUtil.getSession()) {
+            session.beginTransaction();
+            Query query = session.createQuery("delete from AlumniOrganisation where alumniOrganisationId= :id AND alumniId= :alumniId");
+            query.setParameter("id", alumniOrganisation.getAlumniOrganisationId());
+            query.setParameter("alumniId", alumniOrganisation.getAlumniId());
             int result = query.executeUpdate();
             session.getTransaction().commit();
             System.out.println("No of rows updated: "+result);

@@ -3,6 +3,7 @@ package com.example.erp.controller;
 import com.example.erp.Global;
 import com.example.erp.bean.Alumni;
 import com.example.erp.bean.AlumniEducation;
+import com.example.erp.bean.AlumniOrganisation;
 import com.example.erp.bean.Students;
 import com.example.erp.services.AlumniService;
 import com.example.erp.services.StudentsService;
@@ -58,6 +59,27 @@ public class AlumniController {
     }
 
     @POST
+    @Path("/getOrganisationById")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response getOrganisationDetailsById(String str){
+        List<String> alumniOrganisationList = new ArrayList<>();
+        System.out.println(str);
+        System.out.println("id:"+ str.charAt(6));
+        int id = Integer.parseInt(""+str.charAt(6));
+        System.out.println("id:"+ id);
+        AlumniService alumniService = new AlumniService();
+        AlumniOrganisation alumniOrganisation = alumniService.getOrganisationById(id, Global.loginId);
+        System.out.println(alumniOrganisation.getOrganisationName());
+        System.out.println(alumniOrganisation.getPosition());
+        alumniOrganisationList.add(alumniOrganisation.getOrganisationName());
+        alumniOrganisationList.add(alumniOrganisation.getPosition());
+        alumniOrganisationList.add(alumniOrganisation.getJoiningDate());
+        alumniOrganisationList.add(alumniOrganisation.getLeavingDate());
+        return Response.ok().entity(alumniOrganisationList).build();
+    }
+
+    @POST
     @Path("/register_education")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -68,6 +90,19 @@ public class AlumniController {
         alumniEducation.setAlumniId(Global.loginId);
         AlumniService alumniService = new AlumniService();
         alumniService.addEducation(alumniEducation);
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("/register_organisation")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response registerNewOrganisation(AlumniOrganisation alumniOrganisation){
+        System.out.println(alumniOrganisation.getPosition());
+        System.out.println(alumniOrganisation.getOrganisationName());
+        alumniOrganisation.setAlumniId(Global.loginId);
+        AlumniService alumniService = new AlumniService();
+        alumniService.addOrganisation(alumniOrganisation);
         return Response.ok().build();
     }
 
@@ -85,6 +120,19 @@ public class AlumniController {
     }
 
     @POST
+    @Path("/updateOrganisation")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateOrganisation(AlumniOrganisation alumniOrganisation){
+        System.out.println(alumniOrganisation.getPosition());
+        System.out.println(alumniOrganisation.getOrganisationName());
+        alumniOrganisation.setAlumniId(Global.loginId);
+        AlumniService alumniService = new AlumniService();
+        alumniService.updateOrganisation(alumniOrganisation);
+        return Response.ok().build();
+    }
+
+    @POST
     @Path("/deleteEducation")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_JSON)
@@ -94,6 +142,19 @@ public class AlumniController {
         alumniEducation.setAlumniId(Global.loginId);
         AlumniService alumniService = new AlumniService();
         alumniService.deleteEducation(alumniEducation);
+        return Response.ok().build();
+    }
+
+    @POST
+    @Path("/deleteOrganisation")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response deleteOrganisation(AlumniOrganisation alumniOrganisation) {
+        System.out.println(alumniOrganisation.getPosition());
+        System.out.println(alumniOrganisation.getOrganisationName());
+        alumniOrganisation.setAlumniId(Global.loginId);
+        AlumniService alumniService = new AlumniService();
+        alumniService.deleteOrganisation(alumniOrganisation);
         return Response.ok().build();
     }
 
@@ -120,6 +181,30 @@ public class AlumniController {
             educationList.add((""+education.getAlumniEducationId()));
         }
         return Response.ok().entity(educationList).build();
+    }
+
+    @GET
+    @Path("/getOrganisation")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getOrganisation() {
+        List<String> organisationList = new ArrayList<>();
+        Integer id = Global.loginId;
+        System.out.println("ID: "+ id);
+        AlumniService alumniService = new AlumniService();
+        List<AlumniOrganisation> alumniOrganisations = alumniService.getOrganisationDetails(id);
+        System.out.println("Address: "+ alumniOrganisations.get(0).getPosition());
+        System.out.println("Degree: "+ alumniOrganisations.get(0).getOrganisationName());
+        organisationList.add(""+alumniOrganisations.size());
+        organisationList.add(Global.gStudent.getFirst_name());
+        organisationList.add(Global.gStudent.getLast_name());
+        for (AlumniOrganisation organisation : alumniOrganisations) {
+            organisationList.add((organisation.getOrganisationName()));
+            organisationList.add((organisation.getPosition()));
+            organisationList.add((organisation.getJoiningDate()));
+            organisationList.add((organisation.getLeavingDate()));
+            organisationList.add((""+organisation.getAlumniOrganisationId()));
+        }
+        return Response.ok().entity(organisationList).build();
     }
 
 

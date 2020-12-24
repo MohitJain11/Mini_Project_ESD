@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Organisation</title>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+    <link href="assets/css/form-validation.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container">
+        <div class="py-5 text-center">
+            <img alt="" class="d-block mx-auto mb-4" height="72" src="assets/svg/bootstrap-solid.svg" width="72">
+            <h2>Academic ERP</h2>
+        </div>
+        <div class="col-md-8 order-md-1">
+            <h4 class="mb-3">Add New Organisation</h4>
+            <form class="needs-validation-students" id="add-organisation" novalidate>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="organisation_name">Organisation Name</label>
+                        <input class="form-control" id="organisation_name" placeholder="" required type="text" value="">
+                        <div class="invalid-feedback">
+                            Please enter a valid Organisation Name.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="position">Position</label>
+                        <input class="form-control" id="position" placeholder="" required type="text" value="">
+                        <div class="invalid-feedback">
+                            Please enter valid position.
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="joining_date">Joining Date</label>
+                        <input class="form-control" id="joining_date" placeholder="" required type="text" value="">
+                        <div class="invalid-feedback">
+                            Please enter a Joining Date.
+                        </div>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="leaving_date">Leaving Date</label>
+                        <input class="form-control" id="leaving_date" placeholder="" required type="text" value="">
+                        <div class="invalid-feedback">
+                            Please enter valid Leaving Date.
+                        </div>
+                    </div>
+                </div>
+                <hr class="mb-4">
+                <button class="btn btn-primary btn-lg btn-block" type="submit">Add Organisation</button>
+            </form>
+        </div>
+        <br/>
+        <hr class="mb-4">
+    </div>
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+    </footer>
+
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <script src="assets/js/add-new-organisation.js"></script>
+</body>
+</html>
